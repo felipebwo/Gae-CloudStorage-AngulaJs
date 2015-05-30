@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stelo | OPS, algo aconteceu, a Stelo vai te ajudar.</title>
+
+<link href='https://fonts.googleapis.com/css?family=Dosis:400,200,300,300,600,700,800' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+<style>
+.rotate{
+	-webkit-transform: rotate(180deg);
+	-moz-transform:  rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+</style>
+
+</head>
+<body>
+	<div class="bc_sidebar">
+		<div class="bc_doc_anexo">		
+		
+			<!-- form para adiconar arquivo -->
+			<form action="" method="" id="" class="frm_doc_anexo" name="form" ng-controller="gcsController">
+			
+				<h3 class="tit_sidebar" ng-init="init()">
+					<span class="txt">Anexar documentos</span>
+					<a class="icon icon_info" href="javascript:void(0)"></a>				
+				</h3>
+				<p>
+					<strong>
+						Anexe os documentos listados abaixo para dar continuidade no seu processo
+					</strong>
+				</p>
+				
+				<!-- listagem de arquivo carregados -->
+				<ul class="list_anexo">
+					<li class="item">
+						<span>•</span>
+						Comprovante de depósito
+					</li>
+					<li class="item">
+						<span>•</span>
+						Comprovante de depósito
+					</li>
+				</ul>
+				
+				<!-- listagem de arquivo carregados -->
+				<table class="list_arquivo">
+					<thead>
+						<tr>
+						
+							<th width="132px" height="29px">
+								<img src="../../img/seta.png" ng-show="reverse">
+								<img src="../../img/seta.png" ng-show="!reverse" class="rotate">
+								<a class="format_data" href="" ng-click="predicate='date'; reverse=!reverse">Data</a>
+							</th>
+						
+							<th></th>
+							<th>Arquivo</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="item" ng-repeat="item in resultados | orderBy:predicate:reverse">
+							<td class="data">
+								<strong>{{ item.date }}</strong>
+							</td>						
+							<td>
+								<a href="{{ item.link }}" title="Download"><span class="icon icon_anexo_p"></span></a> 
+							</td>						
+							<td>
+								<strong>{{ item.fileName }}</strong>
+							</td>						
+							<td>
+								<a ng-click="deletar(item.fileName)" class="icon icon_x" href="javascript:void(0)" title="excluir"></a>
+							</td>						
+						</tr>
+						
+					</tbody>
+				</table>
+				
+				<fieldset>					
+					<div>						
+						<span class="icon icon_anexo_m"></span>
+						<input type="file" id="fileUpload" name="fileToUpload" data-filename-placement="inside"/>
+						<button ng-click="onFileSelect()" type="submit" class="btn mod1">Enviar</button>
+					</div>
+				</fieldset>
+								
+			</form>
+						
+		</div>
+		
+		<!-- Mensagens de status -->
+		<div class="bc_doc_msg">		
+			<!-- carregando arquivo -->
+			<p class="enviando">
+				<strong>Enviando arquivo...</strong>
+				{{porcentagem}}
+			</p> 
+			
+			<!-- carregando arquivo -->
+			<p class="processando">
+				<strong>Processando ...</strong>
+			</p> 
+			
+			<!-- Arquivo enviado com sucesso -->
+			<p class="sucesso">
+				<strong>Arquivo enviado com sucesso!</strong>			
+			</p>
+			
+			<!-- Arquivo enviado com sucesso -->
+			<p class="sucessoDeletado">
+				<strong>Arquivo excluído com sucesso!</strong>			
+			</p>
+			
+			<!-- Falha no envio do arquivo -->
+			<p class="falha">
+				<strong>Falha ao enviar arquivo!</strong>
+			</p>
+			
+			<!-- Falha no envio do arquivo -->
+			<p class="falhaDeletar">
+				<strong>Falha ao excluir arquivo!</strong>
+			</p>
+			
+			<!-- Falha no envio do arquivo -->
+			<p class="falhaTamanho">
+				<strong>Tamanho de arquivo não suportado. Limite máximo são 5MB.</strong>
+			</p>
+			
+			<!-- Falha no envio do arquivo -->
+			<p class="falhaTipoArquivo">
+				<strong>Extensão de arquivo não suportada. As extensão aceitas são: png, jpg, pdf, tiff, gif, jpeg.</strong>
+			</p>
+			
+			<!-- carregando arquivo -->
+			<p class="carregando">
+				<strong>Carregando arquivos...</strong>
+			</p> 
+			
+			<!-- carregando arquivo -->
+			<p class="sucessoCarregar">
+				<strong>Arquivos carregados com sucesso!</strong>
+			</p> 
+			
+			<!-- carregando arquivo -->
+			<p class="falhaCarregar">
+				<strong>Falha ao carregar arquivos!</strong>
+			</p> 
+			
+			<!-- carregando arquivo -->
+			<p class="atualizouArquivo">
+				<strong>Arquivo atualizado com sucesso!</strong>
+			</p> 
+			
+			<a href="javascript:void(0)" class="lkn_fechar" title="excluir">Fechar</a>
+		</div>
+		
+	</div>
+	
+	<script type="text/javascript">
+		// customização do form file input
+		$('#fileUpload').filestyle({
+			input : false,
+			icon : false,			
+			badge : false,	
+			size : 'sm',		
+			buttonText : 'Adicionar arquivo'
+		});
+		
+		//exibe mensagens(carregando, sucesso ou falha)
+		function showMessage(status){
+			$(".bc_doc_msg").fadeIn();
+			$(".bc_doc_msg p").fadeOut("fast");
+			switch(status){
+				case "processando":
+					$("."+status).fadeIn();
+					break;
+				case "sucesso":
+					$("."+status).fadeIn();
+					break;
+				case "falha":
+					$("."+status).fadeIn();
+					break;
+				case "enviando":
+					$("."+status).fadeIn();
+					break;
+				case "sucessoDeletado":
+					$("."+status).fadeIn();
+					break;
+				case "falhaDeletar":
+					$("."+status).fadeIn();
+					break;
+				case "falhaTamanho":
+					$("."+status).fadeIn();
+					break;
+				case "falhaTipoArquivo":
+					$("."+status).fadeIn();
+					break;
+				case "carregando":
+					$("."+status).fadeIn();
+					break;
+				case "sucessoCarregar":
+					$("."+status).fadeIn();
+					break;
+				case "falhaCarregar":
+					$("."+status).fadeIn();
+					break;
+				case "atualizouArquivo":
+					$("."+status).fadeIn();
+					break;
+			}
+		}	
+		
+		//exibe link fechar(deve ser chamado após a conclusão da ação)
+		function showClose(){						
+			$(".lkn_fechar").fadeIn("fast", function(){
+				$(this).click(function(){
+					$(this).parents(".bc_doc_msg").fadeOut();
+					$(this).fadeOut();
+				})
+			});
+		}
+	</script>
+</body>
+</html>
