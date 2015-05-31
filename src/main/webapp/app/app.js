@@ -32,30 +32,10 @@ app.constant("CONSTANT", {
 	"token" : "Token"
 });
 
-// app.constant("URL", {
-// "list":
-// "https://radiant-anchor-89313.appspot.com/_ah/api/steloStorageAPI/v1/listar",
-// "deletar":
-// "https://radiant-anchor-89313.appspot.com/_ah/api/steloStorageAPI/v1/deletar",
-// "upload": "https://radiant-anchor-89313.appspot.com/upload",
-// "token":
-// "https://radiant-anchor-89313.appspot.com/_ah/api/steloStorageAPI/v1/result"
-// });
-// 
 
- app.constant("URL", {
-	 "list":
-	 "https://ativos-digitais.appspot.com/_ah/api/steloStorageAPI/v1/listar",
-	 "deletar":
-	 "https://ativos-digitais.appspot.com/_ah/api/steloStorageAPI/v1/deletar",
-	 "upload": "https://ativos-digitais.appspot.com/upload",
-	 "token":
-	 "https://ativos-digitais.appspot.com/_ah/api/steloStorageAPI/v1/result"
-	 });
-
-//app.constant("URL", {
-//	"list" : "http://localhost:8080/_ah/api/steloStorageAPI/v1/listar",
-//	"deletar" : "http://localhost:8080/_ah/api/steloStorageAPI/v1/deletar",
-//	"upload" : "http://localhost:8080/upload",
-//	"token" : "http://localhost:8080/_ah/api/steloStorageAPI/v1/result"
-//});
+app.constant("URL", {
+	"list" : "http://localhost:8080/_ah/api/steloStorageAPI/v1/listar",
+	"deletar" : "http://localhost:8080/_ah/api/steloStorageAPI/v1/deletar",
+	"upload" : "http://localhost:8080/upload",
+	"token" : "http://localhost:8080/_ah/api/steloStorageAPI/v1/result"
+});
